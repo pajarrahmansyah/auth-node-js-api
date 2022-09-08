@@ -1,5 +1,7 @@
+require("dotenv").config();
+
 module.exports = {
-  HOST: "localhost",
-  PORT: 27017,
-  DB: "bezkoder_db"
+  HOST: process.env.MONGO_HOST,
+  PORT: process.env.MONGO_PORT,
+  DB: process.env.MONGO_DB
 };
