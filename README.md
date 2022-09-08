@@ -6,6 +6,7 @@
 ## Project setup
 ```
 npm install
+cp .env.example .env
 ```
 
 ### Run
