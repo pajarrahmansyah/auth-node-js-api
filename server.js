@@ -19,9 +19,16 @@ app.use(express.urlencoded({ extended: true }));
 
 const db = require("./app/models");
 const Role = db.role;
+let mongooseConnect;
+
+if (process.env.APP_ENV == 'production') {
+  mongooseConnect = `${dbConfig.ATLAS}`;
+} else {
+  mongooseConnect = `mongodb://${dbConfig.HOST}:${dbConfig.PORT}/${dbConfig.DB}`;
+}
 
 db.mongoose
-  .connect(`mongodb://${dbConfig.HOST}:${dbConfig.PORT}/${dbConfig.DB}`, {
+  .connect(`${mongooseConnect}`, {
     useNewUrlParser: true,
     useUnifiedTopology: true
   })
@@ -36,7 +43,7 @@ db.mongoose
 
 // simple route
 app.get("/", (req, res) => {
-  res.json({ message: "Welcome to mobileauth application." });
+  res.json({ message: "Welcome to rest api authentication." });
 });
 
 // routes
@@ -44,7 +51,7 @@ require("./app/routes/auth.routes")(app);
 require("./app/routes/user.routes")(app);
 
 // set port, listen for requests
-const PORT = process.env.PORT || 8080;
+const PORT = process.env.APP_PORT || 8080;
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}.`);
 });
