@@ -54,6 +54,7 @@ app.get("/", (req, res) => {
 });
 
 // routes
+app.options('*', cors());
 require("./app/routes/auth.routes")(app);
 require("./app/routes/user.routes")(app);
 
