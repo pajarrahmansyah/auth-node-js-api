@@ -5,9 +5,16 @@ const dbConfig = require("./app/config/db.config");
 
 const app = express();
 
+var whitelist = process.env.CORS_URLS.split(' '); 
 var corsOptions = {
-  origin: process.env.APP_URL
-};
+  origin: function (origin, callback) {
+    if (whitelist.indexOf(origin) !== -1) {
+      callback(null, true)
+    } else {
+      callback(new Error('Not allowed by CORS'))
+    }
+  }
+}
 
 app.use(cors(corsOptions));
 
